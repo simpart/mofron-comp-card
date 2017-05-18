@@ -4,7 +4,10 @@
  */
 require('mofron-layout-horizon');
 require('mofron-event-click');
-require('mofron-effect-shadow');
+require('mofron-event-focus');
+require('mofron-event-mouseover');
+require('mofron-event-mouseout');
+require('mofron-event-mousedrag');
 
 mofron.comp.frame.Card = class extends mofron.comp.Frame {
     
