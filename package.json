@@ -1,7 +1,7 @@
 {
-  "name": "mofron-comp-frame-card",
-  "version": "0.0.3",
-  "description": "cardframe component fo mofron",
+  "name": "mofron-comp-dragframe",
+  "version": "0.1.0",
+  "description": "this component has been renamed (mofron-comp-frame-card -> mofron-comp-dragframe)",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -16,8 +16,7 @@
     "mofron-event-focus" : "",
     "mofron-event-mouseover" : "",
     "mofron-event-mouseout" : "",
-    "mofron-event-drag" : "",
-    "mofron-effect-color" : ""
+    "mofron-event-drag" : ""
   },
   "keywords": [
     "mofron"

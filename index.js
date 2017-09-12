@@ -2,25 +2,21 @@
  * @file   mofron-comp-frame/index.js
  * @author simpart
  */
-require('mofron-comp-frame');
-require('mofron-layout-horizon');
-require('mofron-event-click');
-require('mofron-event-focus');
-require('mofron-event-mouseover');
-require('mofron-event-mouseout');
-require('mofron-event-drag');
-require('mofron-effect-color');
+let mf        = require('mofron');
+let Frame     = require('mofron-comp-frame');
+let Click     = require('mofron-event-click');
+let Focus     = require('mofron-event-focus');
+let mOver     = require('mofron-event-mouseover');
+let mOut      = require('mofron-event-mouseout');
+let Draggable = require('mofron-effect-draggable');
 
-
-mofron.comp.frame.Card = class extends mofron.comp.Frame {
+mf.comp.DragFrame = class extends Frame {
     
     constructor (phei, wid) {
         try {
             super();
-            this.name('Card');
-            this.prmOpt(
-                ('number' === typeof wid) ? {param : [phei, wid]} : phei
-            );
+            this.name('DragFrame');
+            this.prmOpt(('number' === typeof wid) ? {param : [phei, wid]} : phei);
         } catch (e) {
             console.error(e.stack);
             throw e;
@@ -30,9 +26,6 @@ mofron.comp.frame.Card = class extends mofron.comp.Frame {
     initDomConts (prm) {
         try {
             super.initDomConts(prm);
-            
-            /* set layout */
-            this.addLayout(new mofron.layout.Horizon());
             
             /*** set event ***/
             /* set focus event */
@@ -47,9 +40,7 @@ mofron.comp.frame.Card = class extends mofron.comp.Frame {
                     throw e;
                 }
             };
-            this.addEvent(
-                new mofron.event.Focus(fcs_fnc)
-            );
+            this.addEvent(new Focus(fcs_fnc));
             
             /* set hover event */
             let hvr_fnc = (prm) => {
@@ -59,22 +50,12 @@ mofron.comp.frame.Card = class extends mofron.comp.Frame {
                 }
             };
             this.event([
-                new mofron.event.MouseOver(
-                    hvr_fnc,
-                    [this,true]
-                ),
-                new mofron.event.MouseOut(
-                    hvr_fnc,
-                    [this,false]
-                )
+                new mOver(hvr_fnc, [this,true]),
+                new mOut(hvr_fnc, [this,false])
             ]);
             
-            /* set drag event */
-            this.addEvent(
-                new mofron.event.Drag(
-                    () => { console.log('Drag!') }
-                )
-            );
+            /* set draggable */
+            this.addEffect(new Draggable());
         } catch (e) {
             console.error(e.stack);
             throw e;
@@ -88,7 +69,7 @@ mofron.comp.frame.Card = class extends mofron.comp.Frame {
                 return (undefined === this.m_focuseff) ? null : this.m_focuseff;
             }
             /* setter */
-            if (false === mofron.func.isInclude(eff, 'Effect')) {
+            if (false === mf.func.isInclude(eff, 'Effect')) {
                 if ( ('object' === typeof eff) && (undefined !== eff[0]) ) {
                     for (let eff_idx in eff) {
                         this.focusEffect(eff[eff_idx]);
@@ -116,7 +97,7 @@ mofron.comp.frame.Card = class extends mofron.comp.Frame {
                 return (undefined === this.m_hvreff) ? null : this.m_hvreff;
             }
             /* setter */
-            if (false === mofron.func.isInclude(eff, 'Effect')) {
+            if (false === mf.func.isInclude(eff, 'Effect')) {
                 if ( ('object' === typeof eff) && (undefined !== eff[0]) ) {
                     for (let eff_idx in eff) {
                         this.hoverEffect(eff[eff_idx]);
@@ -135,23 +116,5 @@ mofron.comp.frame.Card = class extends mofron.comp.Frame {
             throw e;
         }
     }
-    
-    draggable (flg) {
-        try {
-            if (undefined === flg) {
-                /* getter */
-                return (undefined === this.m_drag) ? false : this.m_drag;
-            }
-            /* setter */
-            if ('boolean' !== typeof flg) {
-                throw new Error('invalid parameter');
-            }
-            this.m_drag = flg;
-        } catch (e) {
-            console.error(e.stack);
-            throw e;
-        }
-    }
 }
-mofron.comp.frame.card = {};
-module.exports = mofron.comp.frame.Card;
+module.exports = mofron.comp.DragFrame;
